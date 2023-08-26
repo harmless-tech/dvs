@@ -1,0 +1,58 @@
+[package]
+name = "dvs"
+version = "0.1.0-dev"
+edition = "2021"
+authors = ["harmless-tech"]
+description = "Create and manage docker systems"
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/harmless-tech/dvs"
+keywords = ["binary"]
+#rust-version = "1.65"
+include = [
+    "src/",
+    "Cargo.lock",
+    "Cargo.toml",
+    "LICENSE",
+    "README.md"
+]
+
+[dependencies]
+clap = { version = "4.4.0", features = ["derive", "env"] }
+console = "0.15.7"
+dialoguer = "0.10.4"
+directories = "5.0.1"
+indicatif = "0.17.6"
+mimalloc = { version = "0.1.38", optional = true }
+serde = { version = "1.0.188", features = ["derive"] }
+toml = { version = "0.7.6", features = ["display", "parse"] }
+
+[features]
+default = []
+mimalloc = ["dep:mimalloc"]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"
+
+[profile.small]
+inherits = "release"
+opt-level = "s"
+
+[package.metadata.binstall]
+pkg-url = "{ repo }/releases/download/v{ version }/{ target }.tar.gz"
+bin-dir = "{ bin }{ binary-ext }"
+pkg-fmt = "tgz"
+
+[package.metadata.binstall.overrides.x86_64-pc-windows-msvc]
+pkg-url = "{ repo }/releases/download/v{ version }/{ target }.zip"
+bin-dir = "{ bin }{ binary-ext }"
+pkg-fmt = "zip"
+
+[package.metadata.binstall.overrides.aarch64-pc-windows-msvc]
+pkg-url = "{ repo }/releases/download/v{ version }/{ target }.zip"
+bin-dir = "{ bin }{ binary-ext }"
+pkg-fmt = "zip"
