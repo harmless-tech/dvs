@@ -70,30 +70,30 @@ jobs:
               popd
             fi
           done
-      - name: Sign archives
-        shell: bash
-        run: |
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          brew install minisign
-          echo -n "$SIGNING_KEY" | base64 --decode > ~/.minisign_secret.key
-          for D in target-*; do
-            if [ -d "${D}" ]; then
-              echo "${D}"
-              pushd "${D}"
-        
-              for file in ./*.tar.gz ./*.zip; do
-                if [ -f "$file" ]; then
-                  minisign -S -s ~/.minisign_secret.key -m $file
-                  minisign -V -p ../keys/cargo-prebuilt.pub -m $file
-                fi 
-              done
-                
-              popd
-            fi
-          done
-          rm -f ~/.minisign_secret.key
-        env:
-          SIGNING_KEY: ${{ secrets.MINISIGN_SIGNING_KEY }}
+#      - name: Sign archives
+#        shell: bash
+#        run: |
+#          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+#          brew install minisign
+#          echo -n "$SIGNING_KEY" | base64 --decode > ~/.minisign_secret.key
+#          for D in target-*; do
+#            if [ -d "${D}" ]; then
+#              echo "${D}"
+#              pushd "${D}"
+#
+#              for file in ./*.tar.gz ./*.zip; do
+#                if [ -f "$file" ]; then
+#                  minisign -S -s ~/.minisign_secret.key -m $file
+#                  minisign -V -p ../keys/dvs.pub -m $file
+#                fi
+#              done
+#
+#              popd
+#            fi
+#          done
+#          rm -f ~/.minisign_secret.key
+#        env:
+#          SIGNING_KEY: ${{ secrets.MINISIGN_SIGNING_KEY }}
       - name: Create and push artifacts to release
         uses: ncipollo/release-action@v1
         with:
@@ -441,11 +441,6 @@ jobs:
         run: cross test --verbose --workspace --release --locked --target ${{ matrix.target }} ${{ env.feature-set }}
       - name: Build
         run: cross build --verbose --workspace --release --locked --target ${{ matrix.target }} ${{ env.feature-set }}
-      - name: Run cargo-prebuilt
-        if: ${{ contains(matrix.target, 'x86_64-unknown-linux-') }}
-        run: |
-          target/${{ matrix.target }}/release/${{ env.bin-name }} just
-          just --version
       - name: Tar
         run: tar czvf ${{ matrix.target }}.tar.gz -C ./target/${{ matrix.target }}/release ${{ env.bin-name }}${{ matrix.ending }}
       - name: Hash
@@ -495,11 +490,6 @@ jobs:
         run: cargo test --verbose --workspace --release --locked --target ${{ matrix.target }} ${{ env.feature-set }}
       - name: Build
         run: cargo auditable build --verbose --workspace --release --locked --target ${{ matrix.target }} ${{ env.feature-set }}
-      - name: Run cargo-prebuilt
-        if: ${{ matrix.can-test }}
-        run: |
-          target/${{ matrix.target }}/release/${{ env.bin-name }} just
-          just --version
       - name: Tar
         run: tar czvf ${{ matrix.target }}.tar.gz -C ./target/${{ matrix.target }}/release ${{ env.bin-name }}
       - name: Hash
@@ -549,11 +539,6 @@ jobs:
         run: cargo test --verbose --workspace --release --locked --target ${{ matrix.target }} ${{ env.feature-set }}
       - name: Build
         run: cargo auditable build --verbose --workspace --release --locked --target ${{ matrix.target }} ${{ env.feature-set }}
-      - name: Run cargo-prebuilt
-        if: ${{ matrix.can-test }}
-        run: |
-          target/${{ matrix.target }}/release/${{ env.bin-name }}.exe just
-          just --version
       - name: Zip
         uses: vimtor/action-zip@v1.1
         with:
