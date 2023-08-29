@@ -18,7 +18,7 @@ include = [
 ]
 
 [dependencies]
-clap = { version = "4.4.0", features = ["derive", "env"] }
+clap = { version = "4.4.1", features = ["derive", "env"] }
 console = "0.15.7"
 dialoguer = "0.10.4"
 directories = "5.0.1"
