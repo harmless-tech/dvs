@@ -25,7 +25,7 @@ directories = "5.0.1"
 indicatif = "0.17.6"
 mimalloc = { version = "0.1.38", optional = true }
 serde = { version = "1.0.188", features = ["derive"] }
-toml = { version = "0.7.6", features = ["display", "parse"] }
+toml = { version = "0.8.0", features = ["display", "parse"] }
 
 [features]
 default = []
