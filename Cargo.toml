@@ -23,7 +23,7 @@ console = "0.15.7"
 dialoguer = "0.10.4"
 directories = "5.0.1"
 indicatif = "0.17.6"
-mimalloc = { version = "0.1.38", optional = true }
+mimalloc = { version = "0.1.39", optional = true }
 serde = { version = "1.0.188", features = ["derive"] }
 toml = { version = "0.7.6", features = ["display", "parse"] }
 
