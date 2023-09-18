@@ -1,3 +1,5 @@
+#![allow(dead_code)] // TODO: Remove!
+
 use crate::cli::ArgCommand;
 use clap::Parser;
 use std::{ffi::OsString, process::Command};
@@ -12,19 +14,20 @@ mod image;
 compile_error!("Wasm is not a supported target!");
 
 fn main() {
-    let args = cli::Args::parse();
+    let args = cli::CliArgs::parse();
     #[cfg(debug_assertions)]
     dbg!(&args);
 
     // TODO: Get config here!
     let driver = driver::get_bundled("bundled-docker").unwrap();
 
+    // TODO: Testing
     match &args.subcommand {
-        ArgCommand::Run { id } => {
+        ArgCommand::Run { id, .. } => {
             let image = image::get_bundled(id).unwrap();
             let image = image.parse::<Table>().unwrap();
 
-            let pull_img = image["image"]["pull"].as_str().unwrap();
+            let pull_img = image["image"]["image"].as_str().unwrap();
             let pull_img_default = image["image"]["default"].as_str().unwrap();
             let pull_img = if !pull_img.contains(':') {
                 format!("{pull_img}:{pull_img_default}")
@@ -36,7 +39,12 @@ fn main() {
             dbg!(&pull_img);
 
             let cmd = driver.pull_image(&pull_img);
-            run_cmd(&cmd, None).expect("FFF");
+            run_cmd(&cmd, None).expect("FFF1");
+            run_cmd(
+                "docker image tag rust:latest dvs_managed--rust:latest--aarch64",
+                None,
+            )
+            .expect("FFF2");
         }
         _ => todo!(),
     }
@@ -58,6 +66,7 @@ fn run_cmd(cmd: &str, end: Option<OsString>) -> Result<(), String> {
         command.arg(str);
     }
 
+    #[cfg(debug_assertions)]
     dbg!(&command);
 
     // let out = command.status().expect("exec failed");

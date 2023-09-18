@@ -9,6 +9,6 @@ impl DockerDriver {
 impl Driver for DockerDriver {
     // TODO: Support --platform
     fn pull_image(&self, image: &str) -> String {
-        format!("docker pull {image}")
+        format!("docker image pull {image}")
     }
 }

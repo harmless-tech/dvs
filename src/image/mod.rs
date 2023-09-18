@@ -1,9 +1,4 @@
-use phf::phf_map;
+mod bundled;
+mod dvs_file;
 
-static BUNDLED_MAP: phf::Map<&'static str, &'static str> = phf_map! {
-    "rust" => include_str!("./bundled/rust.toml")
-};
-
-pub fn get_bundled(item: &str) -> Option<&&'static str> {
-    BUNDLED_MAP.get(item)
-}
+pub use bundled::*;

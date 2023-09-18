@@ -1,15 +1,19 @@
-[info]
 id = "rust" # dvs id
+version = "1" # dvs versioning
+author = ""
+repo = ""
+license = ""
+desc = ""
 
 [container]
 workspace = "/project" # -w
 mount_pwd = "/project" # --mount type=bind,source="$(pwd)",target=/project
 mounts = ["$HOME/.cargo/registry:/usr/local/cargo/registry"] # --mount type=bind,source=$HOME/.cargo/registry,target=/usr/local/cargo/registry
-env = ["CARGO_TARGET_DIR=/target"] # -e CARGO_TARGET_DIR=/target
+env = { CARGO_TARGET_DIR = "/target" } # -e CARGO_TARGET_DIR=/target
 
 [image]
-default = "latest"
-versions = [
+default = "latest" # Defaults to latest
+tags = [
     "latest",
     "alpine",
     "bookworm",
@@ -20,11 +24,19 @@ versions = [
     "slim-bullseye",
     "slim-buster",
 ]
-pull = "rust" # Applies to all image unless overridden
-pull_updates = true
+platforms = [
+    "linux/amd64",
+    "linux/386",
+    "linux/arm64",
+    "linux/arm"
+]
+image = "rust" # Do not apply tag to this
+pull = true
+#dockerfile = ""
 entrypoint = "/bin/sh"
 cmd = "-c /bin/bash"
 
-[image.alpine]
+[tag.alpine]
+image = "rust:alpine"
 entrypoint = "/bin/sh"
 cmd = "-c /bin/sh"
