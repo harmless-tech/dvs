@@ -18,16 +18,16 @@ include = [
 ]
 
 [dependencies]
-clap = { version = "4.4.3", features = ["derive", "env"] }
+clap = { version = "4.4.7", features = ["derive", "env"] }
 console = "0.15.7"
-dialoguer = "0.10.4"
+dialoguer = "0.11.0"
 directories = "5.0.1"
-indicatif = "0.17.6"
+indicatif = "0.17.7"
 mimalloc = { version = "0.1.39", optional = true }
 phf = { version = "0.11.2", features = ["macros"] }
-serde = { version = "1.0.188", features = ["derive"] }
-thiserror = "1.0.48"
-toml = { version = "0.8.0", features = ["display", "parse"] }
+serde = { version = "1.0.189", features = ["derive"] }
+thiserror = "1.0.50"
+toml = { version = "0.8.4", features = ["display", "parse"] }
 
 [features]
 default = []
