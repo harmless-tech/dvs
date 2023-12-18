@@ -70,7 +70,7 @@ jobs:
       - name: Build
         run: cross build --verbose --workspace --locked --target ${{ matrix.target }} ${{ env.feature-set }}
       - name: Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: target-${{ matrix.target }}
           path: |
@@ -103,7 +103,7 @@ jobs:
       - name: Build
         run: cargo auditable build --verbose --workspace --locked --target ${{ matrix.target }} ${{ env.feature-set }}
       - name: Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: target-${{ matrix.target }}
           path: |
@@ -136,7 +136,7 @@ jobs:
       - name: Build
         run: cargo auditable build --verbose --workspace --locked --target ${{ matrix.target }} ${{ env.feature-set }}
       - name: Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: target-${{ matrix.target }}
           path: |
